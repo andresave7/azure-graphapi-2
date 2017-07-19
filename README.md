@@ -1,13 +1,13 @@
-# azure-graphapi
+# azure-graphapi2
 
 Node.js package for making Azure Active Directory Graph API calls
 
-v0.1.0
+v0.1.1
 
 ## Installation
 
 ```
-npm install azure-graphapi --save
+npm install azure-graphapi-2 --save
 ```
 
 ## Usage
@@ -121,17 +121,3 @@ Performs an HTTPS GET request and accumulates all objects having the specified `
 3. If the `contentType` is null and the request data is a JavaScript object, it is send as `application/json`.
 4. The callback is passed only one argument (err) if the response status code is 204 (No Content). This is important when using libraries such as the [async utilities](https://github.com/caolan/async).
 5. If the response has a `value` property, it is that value that is passed to the callback function and not the entire response object.
-
-## License
-
-(The MIT License)
-
-Copyright (c) 2016 Frank Hellwig
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
