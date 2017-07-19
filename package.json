@@ -1,11 +1,11 @@
 {
     "name": "azure-graphapi-2",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Node.js package for making Azure Active Directory Graph API calls.",
     "main": "GraphAPI.js",
     "repository": {
         "type": "git",
-        "url": "https://github.com/Slashmsu/azure-graphapi"
+        "url": "https://github.com/Slashmsu/azure-graphapi-2"
     },
     "author": "Bakhtier Gaibulloev",
     "license": "MIT",
