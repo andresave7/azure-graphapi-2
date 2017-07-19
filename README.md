@@ -1,4 +1,4 @@
-# azure-graphapi2
+# azure-graphapi-2
 
 Node.js package for making Azure Active Directory Graph API calls
 
