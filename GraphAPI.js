@@ -47,7 +47,30 @@ GraphAPI.prototype.get = function() {
     var ref = strformat.apply(null, slice.call(arguments, 0, -1)),
         callback = slice.call(arguments, -1)[0];
     this._request('GET', ref, null, null, wrap(callback));
-}
+};
+
+/**
+ * HTTPS GET
+ *
+ * getByFilter(ref, property(string), value, callback)
+ */
+GraphAPI.prototype.getByFilter = function() {
+    var ref = strformat.apply(null, slice.call(arguments, 0)),
+        property = strformat.apply(null, slice.call(arguments, 1)),
+        value = strformat.apply(null, slice.call(arguments, 2)),
+        callback = slice.call(arguments, 3)[0];
+    ref += '/';
+    ref +='?';
+    ref +='$filter';
+    ref +='=';
+    ref += property;
+    ref +=' ';
+    ref +='eq';
+    ref +=' ';
+    ref +="'" + value + "'";
+    console.log(ref);
+    this._request('GET', encodeURI(ref), null, null, wrap(callback));
+};
 
 /**
  * HTTPS GET with odata.nextList recursive call
@@ -59,7 +82,7 @@ GraphAPI.prototype.getObjects = function() {
         objectType = slice.call(arguments, -2, -1)[0],
         callback = slice.call(arguments, -1)[0];
     this._getObjects(ref, [], objectType, callback);
-}
+};
 
 /**
  * HTTPS POST
@@ -72,7 +95,7 @@ GraphAPI.prototype.post = function() {
         contentType = slice.call(arguments, -2, -1)[0],
         callback = slice.call(arguments, -1)[0];
     this._request('POST', ref, data, contentType, wrap(callback));
-}
+};
 
 /**
  * HTTPS PUT
@@ -85,7 +108,7 @@ GraphAPI.prototype.put = function() {
         contentType = slice.call(arguments, -2, -1)[0],
         callback = slice.call(arguments, -1)[0];
     this._request('PUT', ref, data, contentType, wrap(callback));
-}
+};
 
 /**
  * HTTPS PATCH
@@ -98,7 +121,7 @@ GraphAPI.prototype.patch = function() {
         contentType = slice.call(arguments, -2, -1)[0],
         callback = slice.call(arguments, -1)[0];
     this._request('PATCH', ref, data, contentType, wrap(callback));
-}
+};
 
 /**
  * HTTPS DELETE
@@ -109,7 +132,7 @@ GraphAPI.prototype.delete = function() {
     var ref = strformat.apply(null, slice.call(arguments, 0, -1)),
         callback = slice.call(arguments, -1)[0];
     this._request('DELETE', ref, null, null, wrap(callback));
-}
+};
 
 //-----------------------------------------------------------------------------
 // PRIVATE
@@ -149,7 +172,7 @@ GraphAPI.prototype._getObjects = function(ref, objects, objectType, callback) {
             callback(null, objects);
         }
     });
-}
+};
 
 // If there is an access token, perform the request. If not, get an
 // access token and then perform the request.
@@ -167,7 +190,7 @@ GraphAPI.prototype._request = function(method, ref, data, contentType, callback)
             }
         });
     }
-}
+};
 
 // Performs the HTTPS request and tries again on a 401 error
 // by getting another access token and repeating the request.
@@ -196,13 +219,13 @@ GraphAPI.prototype._requestWithRetry = function(method, ref, data, contentType, 
         if (Buffer.isBuffer(data)) {
             options.headers['Content-Type'] = contentType;
         } else if (!contentType) {
-            if (typeof content === 'string') {
+            if (typeof data === 'string') {
                 options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-                options.headers['Content-Length'] = content.length;
-            } else if (content !== null && typeof content === 'object') {
-                content = JSON.stringify(content);
+                options.headers['Content-Length'] = data.length;
+            } else if (data !== null && typeof data === 'object') {
+                data = JSON.stringify(content);
                 options.headers['Content-Type'] = 'application/json';
-                options.headers['Content-Length'] = content.length;
+                options.headers['Content-Length'] = data.length;
             }
         }
     }
@@ -224,7 +247,7 @@ GraphAPI.prototype._requestWithRetry = function(method, ref, data, contentType, 
             callback(null, response);
         }
     });
-}
+};
 
 // Gets an access token using the client id and secret.
 GraphAPI.prototype._requestAccessToken = function(callback) {
@@ -251,7 +274,7 @@ GraphAPI.prototype._requestAccessToken = function(callback) {
             callback(null, response.access_token);
         }
     });
-}
+};
 
 // Our own wrapper around the https.request method.
 function httpsRequest(options, content, callback) {
@@ -294,10 +317,14 @@ function httpsRequest(options, content, callback) {
     });
     req.on('error', function(err) {
         callback(err);
-    })
-    if (content) {
+    });
+    
+    if (typeof content === 'string') {
         req.write(content);
+    } else {
+        req.write(JSON.stringify(content));
     }
+    
     req.end();
 }
 

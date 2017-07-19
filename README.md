@@ -77,6 +77,17 @@ graph.get('users/{userId}', person, function(err, user) {
 }
 ```
 
+Get by filter (return Array):
+
+```javascript
+
+graph.getByFilter('users/', 'customerId','a8272675-dc21-4ff4-bc8d-8647830fa7db', function(err, users) {
+    if (!err) {
+        console.dir(users);
+    }
+}
+```
+
 In all cases, do *not* prefix the `ref` with a forward slash and do *not* add the API version as this is added automatically based on the API version specified in the constructor.
 
 #### graph.get(ref [,args...], callback)
