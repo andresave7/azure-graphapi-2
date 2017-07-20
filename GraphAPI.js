@@ -223,7 +223,7 @@ GraphAPI.prototype._requestWithRetry = function(method, ref, data, contentType, 
                 options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
                 options.headers['Content-Length'] = data.length;
             } else if (data !== null && typeof data === 'object') {
-                data = JSON.stringify(content);
+                data = JSON.stringify(data);
                 options.headers['Content-Type'] = 'application/json';
                 options.headers['Content-Length'] = data.length;
             }
