@@ -94,6 +94,8 @@ GraphAPI.prototype.post = function() {
         data = slice.call(arguments, -3, -2)[0],
         contentType = slice.call(arguments, -2, -1)[0],
         callback = slice.call(arguments, -1)[0];
+
+        console.log('GraphAPI:: ContentType', contentType);
     this._request('POST', ref, data, contentType, wrap(callback));
 };
 
@@ -216,9 +218,15 @@ GraphAPI.prototype._requestWithRetry = function(method, ref, data, contentType, 
         }
     };
     if (data) {
+
+        console.log('GraphApi::requsetWithRetry - content', contentType);
+        console.log('GraphApi::requsetWithRetry - data', data);
+
         if (Buffer.isBuffer(data)) {
             options.headers['Content-Type'] = contentType;
-        } else if (!contentType) {
+        } 
+        else if (!contentType) {
+            console.log('Or here', options.headers); 
             if (typeof data === 'string') {
                 options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
                 options.headers['Content-Length'] = data.length;
@@ -227,7 +235,14 @@ GraphAPI.prototype._requestWithRetry = function(method, ref, data, contentType, 
                 options.headers['Content-Type'] = 'application/json';
                 options.headers['Content-Length'] = data.length;
             }
+  
         }
+        else{
+              
+            options.headers['Content-Type'] = 'application/json';
+            console.log('here 2', options.headers); 
+        }
+        console.log('GraphApi:: Data- headers', options.headers); 
     }
     httpsRequest(options, data, function(err, response) {
         if (err) {
